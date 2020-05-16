@@ -1,4 +1,4 @@
-# whitefly
+# Whitefly #
 Distributed zoological database using Hedera hashgraph technology
 
 create account (portal.hedera.com)
@@ -16,8 +16,16 @@ create .env file
   
   
 Install required packages 
+  ### Demo Only ###
   ```
   npm install --save @hashgraph/sdk
   npm install dotenv
   npm install text-encoding
+  ```
+  ### Full Webapp ###
+  ```
+  npm install express
+  npm install socket.io
+  npm install inquirer
+  npm install open
   ```
