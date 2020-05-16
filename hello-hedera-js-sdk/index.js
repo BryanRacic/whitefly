@@ -2,7 +2,7 @@ console.log("hello node.js!");
 
 // Import the Hedera Hashgraph JS SDK
 // Example uses Hedera JavaScript SDK v1.1.8
-const { Client, ConsensusTopicCreateTransaction, MirrorConsensusTopicQuery, ConsensusSubmitMessageTransaction, MirrorClient } = require("@hashgraph/sdk");
+const { Client, ConsensusTopicCreateTransaction, MirrorConsensusTopicQuery, ConsensusMessageSubmitTransaction, ConsensusTopicInfoQuery, MirrorClient, ConsensusTopicUpdateTransaction } = require("@hashgraph/sdk");
 // Allow access to our .env file variables
 require("dotenv").config();
 // Gen Utils //
@@ -24,69 +24,114 @@ function secondsToDate(time) {
   return date;
 }
 
-// Grab your account ID, private key, and mirror node address from the .env file
-const operatorAccountId = process.env.OPERATOR_ID;
-const operatorPrivateKey = process.env.OPERATOR_KEY;
-const mirrorNodeAddress = process.env.MIRROR_NODE_ADDRESS;
-
-// If we weren't able to grab it, we should throw a new error
-if (operatorPrivateKey == null ||
-    operatorAccountId == null ) {
-    throw new Error("environment variables OPERATOR_KEY and OPERATOR_ID must be present");
-}
-
-// Create our connection to the Hedera network
-// The Hedera JS SDK makes this reallyyy easy!
-const client = Client.forTestnet();
-const consensusClient = new MirrorClient(mirrorNodeAddress);
-
-// Set your client default account ID and private key used to pay for transaction fees and sign transactions
-client.setOperator(operatorAccountId, operatorPrivateKey);
 
 
-
-// Hedera is an asynchronous environment :)
-(async function() {
+async function main() {
   const operatorAccount = process.env.OPERATOR_ID;
   const operatorPrivateKey = process.env.OPERATOR_KEY;
+  const mirrorNodeAddress = process.env.MIRROR_NODE_ADDRESS;
 
+  if (operatorPrivateKey == null ||
+      operatorAccount == null ||
+      mirrorNodeAddress == null) {
+      throw new Error("environment variables OPERATOR_KEY, OPERATOR_ID, MIRROR_NODE_ADDRESS, NODE_ADDRESS must be present");
+  }
+  console.log(operatorAccount)
+  const consensusClient = new MirrorClient(mirrorNodeAddress);
+
+  const client = Client.forTestnet();
+  client.setOperator(operatorAccount, operatorPrivateKey);
+
+  const transactionId = await new ConsensusTopicCreateTransaction()
+      .setTopicMemo("sdk example create_pub_sub.js")
+      .setMaxTransactionFee(100000000000)
+      .execute(client);
+
+  const transactionReceipt = await transactionId.getReceipt(client);
+  const newtopicId = transactionReceipt.getConsensusTopicId();
+  const topicId = "0.0.46939"
+  console.log(`topicId = ${topicId}`);
+
+  const updateTopicTx = await new ConsensusTopicUpdateTransaction()
+    .setTopicId(topicId)
+    .setTopicMemo("Update topic memo")
+    .execute(client);
+  
+  
+  new MirrorConsensusTopicQuery()
+      .setTopicId(topicId)
+      .subscribe(
+          consensusClient,
+          (message) => console.log(message.toString()),
+          (error) => console.log(`Error: ${error}`)
+      );
+  
+  for (let i = 0; ; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await (await new ConsensusMessageSubmitTransaction()
+          .setTopicId(topicId)
+          .setMessage(`Hello, HCS! Message ${i}`)
+          .execute(client))
+          .getReceipt(client);
+
+      console.log(`Sent message ${i}`);
+
+      const topicInfo = await new ConsensusTopicInfoQuery()
+        .setTopicId(topicId)
+        .execute(client);
+      console.log(`${topicInfo.sequenceNumber}`)
+
+      await sleep(2500);
+  }
+  
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+main();
+/*
+// Hedera is an asynchronous environment :)
+(async function main() {
+  // Grab your account ID, private key, and mirror node address from the .env file
+  const operatorAccount = process.env.OPERATOR_ID;
+  const operatorPrivateKey = process.env.OPERATOR_KEY;
+  const mirrorNodeAddress = process.env.MIRROR_NODE_ADDRESS;
+
+  // If we weren't able to grab it, we should throw a new error
+  if (operatorPrivateKey == null ||
+      operatorAccount == null ) {
+      throw new Error("environment variables OPERATOR_KEY and OPERATOR_ID must be present");
+  }
+
+  // Create our connection to the Hedera network
+  const consensusClient = new MirrorClient(mirrorNodeAddress);
+
+  const client = Client.forTestnet();
+  client.setOperator(operatorAccount, operatorPrivateKey);
+
+  /// Create new topic ///
+  const transactionId = await new ConsensusTopicCreateTransaction()
+      .setTopicMemo("sdk example create_pub_sub.js")
+      .setMaxTransactionFee(100000000000)
+      .execute(client);
+
+  const transactionReceipt = await transactionId.getReceipt(client);
+  const topicId = transactionReceipt.getConsensusTopicId();
+
+  console.log(`topicId = ${topicId}`);
   if (operatorPrivateKey == null || operatorAccount == null) {
       throw new Error("environment variables OPERATOR_KEY and OPERATOR_ID must be present");
   }
 
-  /// Create new topic ///
-  try {
-    const txId = await new ConsensusTopicCreateTransaction().execute(
-      client
-    );
-    console.log("ConsensusTopicCreateTransaction()", `submitted tx ${txId}`);
-    await sleep(3000); // wait until Hedera reaches consensus
-    const receipt = await txId.getReceipt(client);
-    newTopicId = receipt.getTopicId();
-    console.log(
-      "ConsensusTopicCreateTransaction()",
-      `success! new topic ${newTopicId}`
-    );
-  } catch (error) {
-    console.log("ERROR: ConsensusTopicCreateTransaction()", error);
-    process.exit(1);
-  }
-
-  /// Configure new topic ///
-  console.log("init()", "creating new topic");
-  topicId = await newTopicId;
-  console.log(
-    "ConsensusTopicCreateTransaction()",
-    `waiting for new HCS Topic & mirror node (it may take a few seconds)`
-  );
-
   /// Subscribe to Mirror ///
   try {
     new MirrorConsensusTopicQuery()
-      .setTopicId("0.0.46863")
+      .setTopicId(topicId)
       .subscribe(
           consensusClient,
-          (message) => console.log(message.toString()),
+          (message) => console.log("Message Recieved: ", message.toString()),
           (error) => console.log(`Error: ${error}`)
       );
     console.log("MirrorConsensusTopicQuery()", topicId.toString());
@@ -96,13 +141,11 @@ client.setOperator(operatorAccountId, operatorPrivateKey);
   }
   ///console.log("MirrorConsensusTopicQuery()", topicId.toString());
 
-
-  
   /// Send Message ///
-  const msg = "Goodbye world......";
+  const msg = "Greetings ......";
   try {
-    new ConsensusSubmitMessageTransaction()
-      .setTopicId("0.0.46863")
+    new ConsensusMessageSubmitTransaction()
+      .setTopicId(topicId)
       .setMessage(msg)
       .execute(client);
     console.log("ConsensusSubmitMessageTransaction()");
@@ -112,3 +155,4 @@ client.setOperator(operatorAccountId, operatorPrivateKey);
   }
   
 }());
+*/
