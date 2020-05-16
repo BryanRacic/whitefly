@@ -1,0 +1,109 @@
+==============
+ Hedera Notes 
+==============
+Features:
+    Finality w/in 2-5 seconds
+
+Hashgraph:
+    Node gets a transaction
+        Choose another node at random, tell everything you know to target node
+    Gossip Protocol
+        Share as much information randomly as fast as you can
+    Hashgraph Gossip:
+        Crypto sign & timestamp w/ each message
+        Each node knows when every other computer signs each transaction
+        Build hashes to previous events that they've seen
+            Prove if events occur out of order
+        Create a DAG
+            Divide into rounds
+            Rounds:
+                Famous Witnesses
+                    Nodes that have seen most of the network
+                Graph Searches
+                    Prove majority of network has seen this transaction?
+                Counting votes
+                    Virtual voting
+                        Encoding crypto required, encode a transaction in it's order, no need to send messages over internet
+        Hashgraph
+            Who talked to who & when
+            Graph Search to find median timestamp
+                Use median timestamp to find consistant order
+Hedera:
+    Hashgraph consensus algos
+    Services:
+        Cryptocurrencies:
+            Starting point
+            All users get Account
+                Public Key
+                Private Key
+            Scalable Transactions
+            Proof of Stake:
+                Must download node software & hold Hbar
+                Prevents overrun of too many anonymous accounts  
+        Smart Contracts
+            Scripting language that runs autonomously on the network
+                Ex. Atomic swaps 
+            Solidity smart Contracts
+            Admin priv available
+        File Service
+            Ancor off ledger data
+            1mb file storage limit
+            IPFS or HashData
+                upload hash to hidera
+            Revocation Service:
+                Allows you to update files
+        Consensus Service
+            Message queue w/ trust guarantees (apache kafka but decentralized)
+
+Transparent collab
+Auditablily & attestability 
+Censorship Resistance
+    See screenshot
+
+Connect to node w/ ip address & account id
+    Can send trans to random or multiple modes
+
+Account & Crypto trans
+Build account trans & execute it 
+Get a recipt
+
+Examples:
+check github & docs
+
+API
+    Keys & Signatures
+        One key, key lists, threshold lists 
+    Queries (get info from network)
+    Transactions (add info to network)
+    File Service
+        create, append, delete transaction
+        query content & info of file
+    Solidity
+        Opensource scripting from Ether implimented on network
+        Compile solidity cool bytecode -> upload bytecode to file -> contract create trans (parameters = bytecode file) -> 
+        Contract Queries
+
+
+=======
+ NEED
+=======
+
+Front End:
+    Query the graph for Transaction history
+        Sort/organize based on certain parameters
+            date/time 
+            weather 
+            locations
+    Compile transaction history into current state
+    Submit new transaction
+    Display current transaction status
+
+=======
+ Want
+=======
+
+Front End:
+    A gmaps data overlay
+    Add users
+        Verification?
+    
