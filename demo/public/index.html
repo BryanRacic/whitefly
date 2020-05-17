@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      .button {
+      display: inline-block;
+      border-radius: 4px;
+      background-color: gray;
+      border: none;
+      color: #FFFFFF;
+      text-align: center;
+      font-size: 28px;
+      padding: 20px;
+      width: 200px;
+      transition: all 0.5s;
+      cursor: pointer;
+      margin: 5px;
+      }
+      
+      .button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+      }
+
+      .button span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+      }
+
+      .button:hover span {
+        padding-right: 25px;
+      }
+
+      .button:hover span:after {
+        opacity: 1;
+        right: 0;
+      }
+    </style>
+    <title>Hello Hedera HCS chat!</title>
+    <link rel="stylesheet" href="/index.css"></link>
+  </head>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="/index.js"></script>
+  <body>
+    <div class="chat">
+      <div class="main-panel">
+        <div class="content">
+          <div class="header">
+            <div class="chat-details">
+              <h3 id="topic-id"> </h3>
+              <h4 id="sequence-number"> </h4>
+            </div>
+          </div>
+          <ul id="messages">
+          </ul>
+          <form id="form" action="">
+            <input id="message" autocomplete="off" placeholder="Recorded Date"/> <br />
+            <input id="message2" autocomplete="off" placeholder="# Of Thirps"/> <br />
+            <input id="message3" autocomplete="off" placeholder="# Of Whiteflies"/> <br />
+            <input id="message4" autocomplete="off" placeholder="# Of Fungus Gnats"/> <br />
+            <input id="message5" autocomplete="off" placeholder="# Of Aphids"/> <br />
+            <input id="message6" autocomplete="off" placeholder="# Of Spider Mites"/> <br />
+            <input id="message7" autocomplete="off" placeholder="# Of Shoreflies"/> <br />
+            <input id="message8" autocomplete="off" placeholder="# Of Parasitic Wasps"/> <br /> 
+            <button class="button" style="vertical-align:middle" alt="Send Data">Send Your Data </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
