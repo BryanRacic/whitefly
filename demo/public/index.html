@@ -2,21 +2,29 @@
 <html>
   <head>
     <style>
+      body{
+        background: url(https://media-us-west-motionelements.s3.amazonaws.com/m/s/1144/9134737/a-0053.jpg) left bottom;
+        background-repeat: no-repeat;
+        background-color: lightgray;
+      }
       .button {
       display: inline-block;
       border-radius: 4px;
-      background-color: gray;
+      background-color: rgba(42, 187, 163, 0.76);
       border: none;
       color: #FFFFFF;
       text-align: center;
       font-size: 28px;
       padding: 20px;
-      width: 200px;
+      width: 300px;
       transition: all 0.5s;
       cursor: pointer;
       margin: 5px;
+      align-content: center;
       }
-      
+      .button:hover {
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+      }
       .button span {
         cursor: pointer;
         display: inline-block;
@@ -42,7 +50,10 @@
         right: 0;
       }
       .input { 
-        width: 200px;
+        width: 300px;
+        height: 25px;
+        border: 3px solid black;
+        padding: 5px;
       }
     </style>
     <title>Hello Hedera HCS chat!</title>
@@ -51,7 +62,9 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
   <script src="/index.js"></script>
+  <script src="https://kit.fontawesome.com/ae70cc1008.js" crossorigin="anonymous"></script>
   <body>
+    <h1>Please Enter You Data For The Day</h1>
     <div class="chat">
       <div class="main-panel">
         <div class="content">
@@ -64,15 +77,15 @@
           <ul id="messages">
           </ul>
           <form id="form" action="">
-            <input class="input" style="horizontal-align: middle" id="message" autocomplete="off" placeholder="Recorded Date"/> <br />
-            <input id="message2" autocomplete="off" placeholder="# Of Thirps"/> <br />
-            <input id="message3" autocomplete="off" placeholder="# Of Whiteflies"/> <br />
-            <input id="message4" autocomplete="off" placeholder="# Of Fungus Gnats"/> <br />
-            <input id="message5" autocomplete="off" placeholder="# Of Aphids"/> <br />
-            <input id="message6" autocomplete="off" placeholder="# Of Spider Mites"/> <br />
-            <input id="message7" autocomplete="off" placeholder="# Of Shoreflies"/> <br />
-            <input id="message8" autocomplete="off" placeholder="# Of Parasitic Wasps"/> <br /> 
-            <button class="button" style="vertical-align:middle" alt="Send Data">Send Your Data </button>
+            <input class="input" id="message" autocomplete="off" placeholder="Recorded Date"/> <i class="fas fa-tree"></i><br />
+            <input class="input" id="message2" autocomplete="off" placeholder="# Of Thirps"/> <i class="fas fa-bug"></i> <br />
+            <input class="input" id="message3" autocomplete="off" placeholder="# Of Whiteflies"/> <i class="fas fa-bug"></i> <br />
+            <input class="input" id="message4" autocomplete="off" placeholder="# Of Fungus Gnats"/> <i class="fas fa-bug"></i> <br />
+            <input class="input" id="message5" autocomplete="off" placeholder="# Of Aphids"/> <i class="fas fa-bug"></i> <br />
+            <input class="input" id="message6" autocomplete="off" placeholder="# Of Spider Mites"/> <i class="fas fa-bug"></i> <br />
+            <input class="input" id="message7" autocomplete="off" placeholder="# Of Shoreflies"/> <i class="fas fa-bug"></i> <br />
+            <input class="input" id="message8" autocomplete="off" placeholder="# Of Parasitic Wasps"/> <i class="fas fa-bug"></i> <br /> 
+            <button class="button" style="vertical-align:middle" alt="Send Data"><hover><span>Send Your Data </span> </hover> </button>
           </form>
         </div>
       </div>
