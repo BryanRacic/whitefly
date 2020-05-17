@@ -15,6 +15,9 @@ $(function() {
     socket.emit("chat message", $("#message6").val());
     socket.emit("chat message", $("#message7").val());
     socket.emit("chat message", $("#message8").val());
+    socket.emit("chat message", $("#message9").val());
+    socket.emit("chat message", $("#message10").val());
+    socket.emit("chat message", $("#message11").val());
     $("#message").val("");
     $("#message2").val("");
     $("#message3").val("");
@@ -23,6 +26,9 @@ $(function() {
     $("#message6").val("");
     $("#message7").val("");
     $("#message8").val("");
+    $("#message9").val("");
+    $("#message10").val("");
+    $("#message11").val("");
     /// Jacob ///
     return false;
   });
