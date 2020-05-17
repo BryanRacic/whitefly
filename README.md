@@ -31,5 +31,5 @@ Install required packages
   ```
   ### Public Facing Webapp (local) ###
   ```
-  npm install xmlhttprequest
+  npm install node-fetch
   ```
