@@ -30,7 +30,7 @@ async function main() {
   const operatorAccount = process.env.OPERATOR_ID;
   const operatorPrivateKey = process.env.OPERATOR_KEY;
   const mirrorNodeAddress = process.env.MIRROR_NODE_ADDRESS;
-
+  const topicId = process.env.TOPIC_ID;
   if (operatorPrivateKey == null ||
       operatorAccount == null ||
       mirrorNodeAddress == null) {
@@ -49,14 +49,13 @@ async function main() {
 
   const transactionReceipt = await transactionId.getReceipt(client);
   const newtopicId = transactionReceipt.getConsensusTopicId();
-  const topicId = "0.0.46939"
+  console.log(newtopicId)
   console.log(`topicId = ${topicId}`);
 
   const updateTopicTx = await new ConsensusTopicUpdateTransaction()
     .setTopicId(topicId)
     .setTopicMemo("Update topic memo")
     .execute(client);
-  
   
   new MirrorConsensusTopicQuery()
       .setTopicId(topicId)

@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Hello Hedera HCS chat!</title>
+    <link rel="stylesheet" href="/index.css"></link>
+  </head>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="/index.js"></script>
+  <body>
+    <div class="chat">
+      <div class="main-panel">
+        <div class="content">
+          <div class="header">
+            <div class="chat-details">
+              <h3 id="topic-id"> </h3>
+              <h4 id="sequence-number"> </h4>
+            </div>
+          </div>
+          <ul id="messages">
+          </ul>
+          <form id="form" action="">
+            <input id="message" autocomplete="off" placeholder="Type a message here"/>
+            <input id="message2" autocomplete="off" placeholder="JACOB"/>
+            <button alt="send"> </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
