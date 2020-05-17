@@ -29,3 +29,7 @@ Install required packages
   npm install inquirer
   npm install open
   ```
+  ### Public Facing Webapp (local) ###
+  ```
+  npm install xmlhttprequest
+  ```
