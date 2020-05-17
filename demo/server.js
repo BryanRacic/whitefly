@@ -77,8 +77,8 @@ function runChat() {
         );
         client.on("chat message", function (msg) {
             var formatMsg = String('{"Recorded Date":"'+ msg[0]  + '", "Card ID":"' + msg[1] + '", "Thrips":"' + msg[2] + '", "Whiteflies":"' + msg[3] + '", "Fungus Gnats":"' + msg[4] + '", "Aphids":"' + msg[5] + '", "Spider Mites":"' + msg[6] + '", "Shoreflies":"' + msg[7] + '", "Parasitic Wasps":"' + msg[8] +'", "Misc":"' + msg[9] + '"}');
-            console.log(formatMsg)
-            sendHCSMessage(msg);
+            //console.log(formatMsg)
+            sendHCSMessage(formatMsg);
         });
         client.on("disconnect", function () {
             io.emit("disconnect message", operatorAccount + specialChar + client.id);

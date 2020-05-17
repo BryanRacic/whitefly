@@ -48,6 +48,7 @@ async function main() {
 
   const transactionReceipt = await transactionId.getReceipt(client);
   const newtopicId = transactionReceipt.getConsensusTopicId();
+  console.log("NEW ID: ", newtopicId);
   const topicId = "0.0.46939"
   console.log(`topicId = ${topicId}`);
 
@@ -69,7 +70,7 @@ async function main() {
     // eslint-disable-next-line no-await-in-loop
     await (await new ConsensusMessageSubmitTransaction()
       .setTopicId(topicId)
-      .setMessage(`Hello, HCS! Message ${i}`)
+      .setMessage(`00000000, 0000, 0, 0, 0, 0, 0, 0, 0, 0, 0000`)
       .execute(client))
       .getReceipt(client);
 
@@ -81,6 +82,7 @@ async function main() {
     console.log(`${topicInfo.sequenceNumber}`)
 
     await sleep(2500);
+    return;
   }
 
 }

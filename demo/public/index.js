@@ -5,19 +5,13 @@ $(function() {
   // handle and submit new chat messages to our server
   $("form").submit(function(e) {
     e.preventDefault(); // prevents page reloading
-    var msg = $("#message").val();
-    var msg2 = $("#message2").val();
-    socket.emit("chat message", $("#message").val());
-    socket.emit("chat message", $("#message2").val());
-    socket.emit("chat message", $("#message3").val());
-    socket.emit("chat message", $("#message4").val());
-    socket.emit("chat message", $("#message5").val());
-    socket.emit("chat message", $("#message6").val());
-    socket.emit("chat message", $("#message7").val());
-    socket.emit("chat message", $("#message8").val());
-    socket.emit("chat message", $("#message9").val());
-    socket.emit("chat message", $("#message10").val());
+    var msg = [$("#message").val(),$("#message1").val(),$("#message2").val(),$("#message3").val(),$("#message4").val(),$("#message5").val(),$("#message6").val(),$("#message7").val(),$("#message8").val(),$("#message9").val(),$("#message10").val("")];
+
+    socket.emit("chat message", msg);
+
+    // Reset form values //
     $("#message").val("");
+    $("#message1").val("");
     $("#message2").val("");
     $("#message3").val("");
     $("#message4").val("");
@@ -27,7 +21,7 @@ $(function() {
     $("#message8").val("");
     $("#message9").val("");
     $("#message10").val("");
-    /// Jacob ///
+ 
     return false;
   });
 
