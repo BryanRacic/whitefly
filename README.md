@@ -1,6 +1,14 @@
 # Whitefly #
 Distributed zoological database using Hedera hashgraph technology
 
+
+Devpost: https://devpost.com/software/public-pest-network
+
+
+Video Summary: https://vimeo.com/419576413
+
+
+## Setup ##
 create account (portal.hedera.com)
 
 
