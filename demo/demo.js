@@ -9,10 +9,10 @@ require("dotenv").config();
 // Gen Utils //
 const TextDecoder = require("text-encoding").TextDecoder;
 // Util Functions //
-function sleep(ms){
+function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-function UInt8ToString(array){
+function UInt8ToString(array) {
   var str = "";
   for (var i = 0; i < array.length; i++) {
     str += array[i];
@@ -25,17 +25,15 @@ function secondsToDate(time) {
   return date;
 }
 
-
-
 async function main() {
   const operatorAccount = process.env.OPERATOR_ID;
   const operatorPrivateKey = process.env.OPERATOR_KEY;
   const mirrorNodeAddress = process.env.MIRROR_NODE_ADDRESS;
 
   if (operatorPrivateKey == null ||
-      operatorAccount == null ||
-      mirrorNodeAddress == null) {
-      throw new Error("environment variables OPERATOR_KEY, OPERATOR_ID, MIRROR_NODE_ADDRESS, NODE_ADDRESS must be present");
+    operatorAccount == null ||
+    mirrorNodeAddress == null) {
+    throw new Error("environment variables OPERATOR_KEY, OPERATOR_ID, MIRROR_NODE_ADDRESS, NODE_ADDRESS must be present");
   }
   console.log(operatorAccount)
   const consensusClient = new MirrorClient(mirrorNodeAddress);
@@ -44,9 +42,9 @@ async function main() {
   client.setOperator(operatorAccount, operatorPrivateKey);
 
   const transactionId = await new ConsensusTopicCreateTransaction()
-      .setTopicMemo("sdk example create_pub_sub.js")
-      .setMaxTransactionFee(100000000000)
-      .execute(client);
+    .setTopicMemo("sdk example create_pub_sub.js")
+    .setMaxTransactionFee(100000000000)
+    .execute(client);
 
   const transactionReceipt = await transactionId.getReceipt(client);
   const newtopicId = transactionReceipt.getConsensusTopicId();
@@ -57,34 +55,34 @@ async function main() {
     .setTopicId(topicId)
     .setTopicMemo("Update topic memo")
     .execute(client);
-  
-  
+
+
   new MirrorConsensusTopicQuery()
-      .setTopicId(topicId)
-      .subscribe(
-          consensusClient,
-          (message) => console.log(message.toString()),
-          (error) => console.log(`Error: ${error}`)
-      );
-  
+    .setTopicId(topicId)
+    .subscribe(
+      consensusClient,
+      (message) => console.log(message.toString()),
+      (error) => console.log(`Error: ${error}`)
+    );
+
   for (let i = 0; ; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      await (await new ConsensusMessageSubmitTransaction()
-          .setTopicId(topicId)
-          .setMessage(`Hello, HCS! Message ${i}`)
-          .execute(client))
-          .getReceipt(client);
+    // eslint-disable-next-line no-await-in-loop
+    await (await new ConsensusMessageSubmitTransaction()
+      .setTopicId(topicId)
+      .setMessage(`Hello, HCS! Message ${i}`)
+      .execute(client))
+      .getReceipt(client);
 
-      console.log(`Sent message ${i}`);
+    console.log(`Sent message ${i}`);
 
-      const topicInfo = await new ConsensusTopicInfoQuery()
-        .setTopicId(topicId)
-        .execute(client);
-      console.log(`${topicInfo.sequenceNumber}`)
+    const topicInfo = await new ConsensusTopicInfoQuery()
+      .setTopicId(topicId)
+      .execute(client);
+    console.log(`${topicInfo.sequenceNumber}`)
 
-      await sleep(2500);
+    await sleep(2500);
   }
-  
+
 }
 
 function sleep(ms) {
@@ -154,7 +152,7 @@ main();
     console.log("ERROR: ConsensusSubmitMessageTransaction()", error);
     process.exit(1);
   }
-  
+
 }());
 =======
 console.log("hello node.js!");
@@ -215,7 +213,7 @@ async function main() {
     .setTopicId(topicId)
     .setTopicMemo("Update topic memo")
     .execute(client);
-  
+
   new MirrorConsensusTopicQuery()
       .setTopicId(topicId)
       .subscribe(
@@ -223,7 +221,7 @@ async function main() {
           (message) => console.log(message.toString()),
           (error) => console.log(`Error: ${error}`)
       );
-  
+
   for (let i = 0; ; i += 1) {
       // eslint-disable-next-line no-await-in-loop
       await (await new ConsensusMessageSubmitTransaction()
@@ -241,7 +239,7 @@ async function main() {
 
       await sleep(2500);
   }
-  
+
 }
 
 function sleep(ms) {
@@ -311,7 +309,7 @@ main();
     console.log("ERROR: ConsensusSubmitMessageTransaction()", error);
     process.exit(1);
   }
-  
+
 }());
 >>>>>>> 9bb77e261e3ff9382980042bbdf5684b3bb88187
 */
