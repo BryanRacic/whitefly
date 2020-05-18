@@ -1,6 +1,7 @@
 # Whitefly #
 Distributed zoological database using Hedera hashgraph technology
 
+ #### placed #1 in the Hedera Category of HackTheChain 2020, #2 overall (thanks everyone!!) ####
 
 Devpost: https://devpost.com/software/public-pest-network
 
